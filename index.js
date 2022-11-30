@@ -1,10 +1,12 @@
+//Christian Salapang ENCE 4A
+
 const express = require("express");
 const app = express();
 const { MongoClient } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
 const port = 3000;
 
 // Set up default mongoose connection
-const url = "mongodb://127.0.0.1";
+const url = "mongodb://localhost:27018";
 const client = new MongoClient(url);
 
 const dbName = "mflix";
