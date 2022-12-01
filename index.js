@@ -49,8 +49,8 @@ app.post("/", (req, res) => {
     console.log(err);
     return res.json({
       msg: "ERROR processing query"
-    })
-  })
+    });
+  });
 });
 
 //2. update data of the given _id
@@ -70,13 +70,25 @@ app.put("/:_id", (req, res) => {
     console.log(err);
     return res.json({
       msg: "ERROR processing query"
-    })
-  })
+    });
+  });
 });
 
 //3. delete the given _id
 app.delete("/:_id", (req, res) => {
-    
+  db.collection("movies")
+  .deleteOne({
+    title: "Blacksmith Scene"
+  })
+  .then((records) => {
+    return res.json(records);
+  })
+  .catch((err) => {
+    console.log(err);
+    return res.json({
+      msg: "ERROR processing query"
+    });
+  });
 });
 
 app.listen(port, () => {
