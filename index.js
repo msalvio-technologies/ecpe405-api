@@ -27,7 +27,7 @@ client
 app.get("/", (req, res) => {
   db.collection("movies")
     .find({})
-    .limit(1) //uncomment to display all
+    .limit(5) //uncomment to display all
     .toArray()
     .then((records) => {
       return res.json(records);
@@ -39,10 +39,17 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/", (req, res) => {});
+app.post("/insert", (req, res) => {});
 
 //2. update data of the given _id
-app.put("/:_id", (req, res) => {});
+app.put("/update", (req, res) => {
+  db.collection("movies")
+  .updateOne({title: "A Corner in Wheat"}, {$set: {year: 2022}})
+  .then((records) => {return res.json(records);})
+  .catch((err)=> {console.log(err); 
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
 
 //3. delete the given _id
 app.delete("/:_id", (req, res) => {});
