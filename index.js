@@ -54,7 +54,17 @@ app.post("/", (req, res) => {
 });
 
 //2. update data of the given _id
-app.put("/:_id", (req, res) => {});
+app.put("/:_id", (req, res) => {
+  db.collection("movies")
+   .findOneAndUpdate({},{$set:req.body})
+   .then((records) => {
+      return res.json(records);
+   })
+   .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+     })
+});
 
 //3. delete the given _id
 app.delete("/:_id", (req, res) => {});
