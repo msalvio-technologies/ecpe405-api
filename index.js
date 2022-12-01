@@ -1,10 +1,12 @@
+// ALCIR R. COSAS ENCE4A
+
 const express = require("express");
 const app = express();
 const { MongoClient } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
 const port = 3000;
 
 // Set up default mongoose connection
-const url = "mongodb://127.0.0.1";
+const url = "mongodb://localhost:27018";
 const client = new MongoClient(url);
 
 const dbName = "mflix";
@@ -25,7 +27,7 @@ client
 app.get("/", (req, res) => {
   db.collection("movies")
     .find({})
-    .limit(5) //uncomment to display all
+    .limit(1) //uncomment to display all
     .toArray()
     .then((records) => {
       return res.json(records);
