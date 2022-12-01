@@ -1,4 +1,7 @@
 {
+  "scripts" :{
+    "start" : "nodemon my_file.js"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "mongodb": "^4.12.1",
