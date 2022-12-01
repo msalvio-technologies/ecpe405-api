@@ -60,7 +60,14 @@ app.put("/update", (req, res) => {
 });
 
 //3. delete the given _id
-app.delete("/:_id", (req, res) => {});
+app.delete("/:_id", (req, res) => {
+  db.collection("movies")
+  .deleteOne({ title: "The Immigrant"})
+  .then((records) => {return res.json(records);})
+  .catch((err)=> {console.log(err); 
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
