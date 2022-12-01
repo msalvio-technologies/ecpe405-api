@@ -1,4 +1,4 @@
-JACK WATAI ENCE4A
+//JACK WATAI ENCE4A
 
 const express = require("express");
 const app = express();
@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
       return res.json({ msg: "There was an error processing your query" });
     });
 });
-
+//JACK WATAI ENCE4A
 //1. insert data
 app.post("/", (req, res) => {
   db.collection("movies")
@@ -54,7 +54,7 @@ app.post("/", (req, res) => {
       return res.json({ msg: "There was an error processing your query" });
      })
 });
-
+//JACK WATAI ENCE4A
 //2. update data of the given _id
 app.put("/:_id", (req, res) => {
   db.collection("movies")
@@ -67,7 +67,7 @@ app.put("/:_id", (req, res) => {
       return res.json({ msg: "There was an error processing your query" });
      })
 });
-
+//JACK WATAI ENCE4A
 //3. delete the given _id
 app.delete("/:_id", (req, res) => {
   db.collection("movies")
