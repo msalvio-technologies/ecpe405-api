@@ -39,7 +39,15 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/insert", (req, res) => {});
+app.post("/insert", (req, res) => {
+  db.collection("movies")
+  .insertOne({title: "Optimize Prime"}, {$set: {year: 2022}})
+  .then((records) => {return res.json(records);})
+  .catch((err)=> {console.log(err); 
+    return res.json({ msg: "There was an error processing your query" });
+  });
+
+});
 
 //2. update data of the given _id
 app.put("/update", (req, res) => {
