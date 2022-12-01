@@ -21,6 +21,10 @@ client
     console.log("Unable to connect to Mongodb");
   });
 
+  var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 //getting all movies (limit only 5 movies to save processing time)
 app.get("/", (req, res) => {
   db.collection("movies")
@@ -37,7 +41,17 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/", (req, res) => {});
+app.post("/", (req, res) => {
+  db.collection("movies")
+   .insertOne(req.body)
+   .then((records) => {
+      return res.json(records);
+   })
+   .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+     })
+});
 
 //2. update data of the given _id
 app.put("/:_id", (req, res) => {});
