@@ -39,35 +39,68 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/insert", (req, res) => {
+app.post("/", (req, res) => {
+  console.log(req.body);
+  const title = req.body.title;
+  const year = req.body.year;
   db.collection("movies")
-  .insertOne({title: "Optimize Prime"}, {$set: {year: 2022}})
-  .then((records) => {return res.json(records);})
-  .catch((err)=> {console.log(err); 
-    return res.json({ msg: "There was an error processing your query" });
-  });
-
-});
+    .insertOne({
+      title,
+      year
+    })
+    .then((records) => {
+      return res.json(records);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+    });
+}); 
 
 //2. update data of the given _id
+
 app.put("/update", (req, res) => {
+  const title = req.body.title;
+  const year = req.body.year;
   db.collection("movies")
-  .updateOne({title: "A Corner in Wheat"}, {$set: {year: 2022}})
-  .then((records) => {return res.json(records);})
-  .catch((err)=> {console.log(err); 
-    return res.json({ msg: "There was an error processing your query" });
-  });
+    .updateOne(
+      {
+        _id: ObjectId(id)
+      },
+      {
+        $set: {
+          title,
+          year
+        }
+      }
+    )
+    .then((records) => {
+      return res.json(records);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+    });
 });
 
 //3. delete the given _id
 app.delete("/:_id", (req, res) => {
+  const id = req.params._id;
   db.collection("movies")
-  .deleteOne({ title: "The Immigrant"})
-  .then((records) => {return res.json(records);})
-  .catch((err)=> {console.log(err); 
-    return res.json({ msg: "There was an error processing your query" });
-  });
-});
+    .deleteOne(
+      {
+        _id: ObjectId(id)
+      })
+    .then((records) => {
+      return res.json(records);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+    });
+}); 
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
