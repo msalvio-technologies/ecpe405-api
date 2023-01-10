@@ -1,13 +1,19 @@
 // ALCIR R. COSAS ENCE4A
-
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
-const { MongoClient } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
+const { MongoClient, ObjectID, ObjectId } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
 const port = 3000;
 
 // Set up default mongoose connection
 const url = "mongodb://localhost:27018";
 const client = new MongoClient(url);
+
+app.use(
+  bodyParser.urlencoded({
+      extended: false,
+  })
+);
 
 const dbName = "mflix";
 let db;
@@ -59,13 +65,14 @@ app.post("/", (req, res) => {
 
 //2. update data of the given _id
 
-app.put("/update", (req, res) => {
+app.put("/:_id", (req, res) => {
   const title = req.body.title;
+  const id = req.params._id;
   const year = req.body.year;
   db.collection("movies")
     .updateOne(
       {
-        _id: ObjectId(id)
+        _id: ObjectID(id)
       },
       {
         $set: {
@@ -99,8 +106,6 @@ app.delete("/:_id", (req, res) => {
       return res.json({ msg: "There was an error processing your query" });
     });
 }); 
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
