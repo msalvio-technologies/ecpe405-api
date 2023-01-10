@@ -1,11 +1,19 @@
+// ALCIR R. COSAS ENCE4A
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
-const { MongoClient } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
+const { MongoClient, ObjectID, ObjectId } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
 const port = 3000;
 
 // Set up default mongoose connection
-const url = "mongodb://127.0.0.1";
+const url = "mongodb://localhost:27018";
 const client = new MongoClient(url);
+
+app.use(
+  bodyParser.urlencoded({
+      extended: false,
+  })
+);
 
 const dbName = "mflix";
 let db;
@@ -37,13 +45,67 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/", (req, res) => {});
+app.post("/", (req, res) => {
+  console.log(req.body);
+  const title = req.body.title;
+  const year = req.body.year;
+  db.collection("movies")
+    .insertOne({
+      title,
+      year
+    })
+    .then((records) => {
+      return res.json(records);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+    });
+}); 
 
 //2. update data of the given _id
-app.put("/:_id", (req, res) => {});
+
+app.put("/:_id", (req, res) => {
+  const title = req.body.title;
+  const id = req.params._id;
+  const year = req.body.year;
+  db.collection("movies")
+    .updateOne(
+      {
+        _id: ObjectID(id)
+      },
+      {
+        $set: {
+          title,
+          year
+        }
+      }
+    )
+    .then((records) => {
+      return res.json(records);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+    });
+});
 
 //3. delete the given _id
-app.delete("/:_id", (req, res) => {});
+app.delete("/:_id", (req, res) => {
+  const id = req.params._id;
+  db.collection("movies")
+    .deleteOne(
+      {
+        _id: ObjectId(id)
+      })
+    .then((records) => {
+      return res.json(records);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.json({ msg: "There was an error processing your query" });
+    });
+}); 
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
