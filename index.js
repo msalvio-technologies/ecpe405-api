@@ -1,10 +1,12 @@
+// ALCIR R. COSAS ENCE4A
+
 const express = require("express");
 const app = express();
 const { MongoClient } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
 const port = 3000;
 
 // Set up default mongoose connection
-const url = "mongodb://127.0.0.1";
+const url = "mongodb://localhost:27018";
 const client = new MongoClient(url);
 
 const dbName = "mflix";
@@ -37,13 +39,35 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/", (req, res) => {});
+app.post("/insert", (req, res) => {
+  db.collection("movies")
+  .insertOne({title: "Optimize Prime"}, {$set: {year: 2022}})
+  .then((records) => {return res.json(records);})
+  .catch((err)=> {console.log(err); 
+    return res.json({ msg: "There was an error processing your query" });
+  });
+
+});
 
 //2. update data of the given _id
-app.put("/:_id", (req, res) => {});
+app.put("/update", (req, res) => {
+  db.collection("movies")
+  .updateOne({title: "A Corner in Wheat"}, {$set: {year: 2022}})
+  .then((records) => {return res.json(records);})
+  .catch((err)=> {console.log(err); 
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
 
 //3. delete the given _id
-app.delete("/:_id", (req, res) => {});
+app.delete("/:_id", (req, res) => {
+  db.collection("movies")
+  .deleteOne({ title: "The Immigrant"})
+  .then((records) => {return res.json(records);})
+  .catch((err)=> {console.log(err); 
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
