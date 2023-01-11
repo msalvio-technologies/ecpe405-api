@@ -1,3 +1,5 @@
+//Angelica De La Torre ENCE4A
+
 const express = require("express");
 const app = express();
 const { MongoClient } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
@@ -37,13 +39,44 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/", (req, res) => {});
+app.post("/insert", (req, res) => {
+  db.collection("movies")
+  .insertOne({title: "The Unconditional Love", year: 2021})
+  .then((records) => {
+    return res.json(records);
+  })
+  .catch((err) => {
+    console.log(err);
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
 
-//2. update data of the given _id
-app.put("/:_id", (req, res) => {});
+//2. update data
+app.put("/update", (req, res) => {
+  db.collection("movies")
+  .updateOne({title: "Traffic in Souls"},{ $set: {
+    year: 2023
+  }})
+  .then((records) => {
+    return res.json(records);
+  })
+  .catch((err) => {
+    console.log(err);
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
 
-//3. delete the given _id
-app.delete("/:_id", (req, res) => {});
+//3. delete
+app.delete("/delete", (req, res) => {db.collection("movies")
+  .deleteOne({title: "In the Land of the Head Hunters"})
+  .then((records) => {
+  return res.json(records);
+  })
+  .catch((err) => {
+  console.log(err);
+  return res.json({ msg: "There was an error processing your query" });
+  }); 
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
