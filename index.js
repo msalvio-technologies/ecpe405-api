@@ -1,5 +1,3 @@
-//GODSPEED GUINTO
-
 const express = require("express");
 const app = express();
 const { MongoClient } = require("mongodb"); // https://github.com/mongodb/node-mongodb-native
