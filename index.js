@@ -37,14 +37,48 @@ app.get("/", (req, res) => {
 });
 
 //1. insert data
-app.post("/", (req, res) => {});
+app.post("/insert", (req, res) => {
+  db.collection("movies")
+  .insertOne({title: "I AM SPEED", year: 2022})
+  .then((records) => {
+    return res.json(records);
+  })
+  .catch((err) => {
+    console.log(err);
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
+
+
 
 //2. update data of the given _id
-app.put("/:_id", (req, res) => {});
+app.put("/updates", (req, res) => {
+  db.collection("movies")
+  .updateOne({title: "Traffic in the Soul"},{ $set: {
+    year: 2023
+  }})
+  .then((records) => {
+    return res.json(records);
+  })
+  .catch((err) => {
+    console.log(err);
+    return res.json({ msg: "There was an error processing your query" });
+  });
+});
+
 
 //3. delete the given _id
-app.delete("/:_id", (req, res) => {});
+app.delete("/delete", (req, res) => {db.collection("movies")
+  .deleteOne({title: "In the land of the headhunters?"})
+  .then((records) => {
+  return res.json(records);
+  })
+  .catch((err) => {
+  console.log(err);
+  return res.json({ msg: "There was an error processing your query" });
+  }); 
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log('Example app listening on port ${port}');
 });
